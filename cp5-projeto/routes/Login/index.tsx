@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 
 export function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+  function onSubmit(data: any) {
+    console.log("Dados do formulário:", data);
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
 
