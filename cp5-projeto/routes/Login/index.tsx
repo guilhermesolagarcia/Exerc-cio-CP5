@@ -1,6 +1,8 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 export function Login() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
 
