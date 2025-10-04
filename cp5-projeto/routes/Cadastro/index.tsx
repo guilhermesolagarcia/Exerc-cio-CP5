@@ -1,24 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { Usuario } from "../../types/usuario";
+import axios from "axios";
 
 type CadastroFormInputs = Pick<Usuario, 'nome' | 'nomeUsuario' | 'email'>;
 
 export function Cadastro() {
   const { register, handleSubmit, formState: { errors } } = useForm<CadastroFormInputs>();
+  const navigate = useNavigate();
 
-  function onSubmit(data: CadastroFormInputs) {
-    console.log("Dados do formulário de cadastro:", data);
+  async function onSubmit(data: CadastroFormInputs) {
+    try {
+      
+      const emailExists = await axios.get(`http://localhost:3001/usuarios?email=${data.email}`);
+      if (emailExists.data.length > 0) {
+        alert("Este e-mail já está cadastrado.");
+        return;
+      }
+
+      
+      const userExists = await axios.get(`http://localhost:3001/usuarios?nomeUsuario=${data.nomeUsuario}`);
+      if (userExists.data.length > 0) {
+        alert("Este nome de usuário já está em uso.");
+        return;
+      }
+      
+      
+      const response = await axios.post("http://localhost:3001/usuarios", data);
+
+      
+      alert(`Usuário "${response.data.nome}" cadastrado com sucesso!`);
+      navigate("/login");
+
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+      alert("Ocorreu um erro ao tentar cadastrar. Por favor, tente novamente.");
+    }
   }
 
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Cadastro</h1>
-
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
-          
           <div>
             <label htmlFor="nome" className="block text-sm font-medium text-gray-700">
               Nome Completo
