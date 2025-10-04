@@ -1,14 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { Usuario } from "../../types/usuario";
+import axios from "axios"; 
 
 type LoginFormInputs = Pick<Usuario, 'nomeUsuario' | 'email'>;
 
 export function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
+  const navigate = useNavigate(); 
 
-  function onSubmit(data: LoginFormInputs) {
-    console.log("Dados do formulário:", data);
+  
+  async function onSubmit(data: LoginFormInputs) {
+    try {
+      
+      const response = await axios.get(
+        `http://localhost:3001/usuarios?nomeUsuario=${data.nomeUsuario}&email=${data.email}`
+      );
+
+      if (response.data.length > 0) {
+        const usuario = response.data[0];
+        alert(`Bem-vindo(a) de volta, ${usuario.nome}!`);
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+        navigate("/home");
+      } else {
+        alert("Nome de usuário ou e-mail inválidos.");
+      }
+    } catch (error) {
+      console.error("Ocorreu um erro ao fazer login:", error);
+      alert("Erro no servidor. Tente novamente mais tarde.");
+    }
   }
 
   return (
@@ -25,7 +45,6 @@ export function Login() {
             <input 
               type="text" 
               id="nomeUsuario"
-
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               {...register("nomeUsuario", { required: "O nome de usuário é obrigatório" })}
             />
