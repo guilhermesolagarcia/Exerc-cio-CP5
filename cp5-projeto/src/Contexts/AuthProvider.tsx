@@ -1,9 +1,13 @@
-import { createContext, useState, useEffect, useContext} from "react";
+// src/contexts/AuthProvider.tsx
+
+import { createContext, useState, useEffect, useContext } from "react";
 import type { ReactNode } from "react";
 import type { Usuario } from "../../types/usuario";
 
+// Adicione a função 'login' à interface
 interface AuthContextData {
   usuario: Usuario | null;
+  login: (usuario: Usuario) => void;
   logout: () => void;
 }
 
@@ -19,13 +23,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Crie a função 'login'
+  function login(usuario: Usuario) {
+    setUsuario(usuario);
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+  }
+
   function logout() {
     setUsuario(null);
     localStorage.removeItem("usuarioLogado");
   }
 
   return (
-    <AuthContext.Provider value={{ usuario, logout }}>
+    // Disponibilize a função 'login' no contexto
+    <AuthContext.Provider value={{ usuario, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

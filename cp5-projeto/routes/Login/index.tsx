@@ -1,26 +1,31 @@
+// src/routes/Login/index.tsx
+
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { Usuario } from "../../types/usuario";
-import axios from "axios"; 
+import axios from "axios";
+import { useAuth } from "../../src/Contexts/AuthProvider"; // Importe o useAuth
 
 type LoginFormInputs = Pick<Usuario, 'nomeUsuario' | 'email'>;
 
 export function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { login } = useAuth(); // Pegue a função 'login' do contexto
 
-  
   async function onSubmit(data: LoginFormInputs) {
     try {
-      
       const response = await axios.get(
         `http://localhost:3001/usuarios?nomeUsuario=${data.nomeUsuario}&email=${data.email}`
       );
 
       if (response.data.length > 0) {
         const usuario = response.data[0];
+        
+        // Use a função 'login' do contexto
+        login(usuario);
+        
         alert(`Bem-vindo(a) de volta, ${usuario.nome}!`);
-        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
         navigate("/home");
       } else {
         alert("Nome de usuário ou e-mail inválidos.");
@@ -31,6 +36,7 @@ export function Login() {
     }
   }
 
+  // O restante do seu código JSX continua igual...
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
