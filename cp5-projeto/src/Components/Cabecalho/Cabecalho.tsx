@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthProvider";
 
-export function Cabecalho() { 
+export function Cabecalho() {
   const { usuario, logout } = useAuth();
   const navigate = useNavigate();
 

@@ -5,6 +5,12 @@
       "nome": "Clayton Alves dos Santos",
       "nomeUsuario": "ClaytonSantos",
       "email": "claytonteste@email.com"
+    },
+    {
+      "id": "0906",
+      "nome": "Guilherme Sola",
+      "nomeUsuario": "Guizz",
+      "email": "GuilhermeSola@email.com"
     }
   ]
 }
