@@ -5,6 +5,9 @@
 - Guilherme Sola Garcia RM563674
 - Pedro Santos Pequini RM561842
 
+## Link do repositório do GitHub
+https://github.com/guilhermesolagarcia/Exercicio-CP5/tree/main
+
 ## Descrição do Projeto
 Este projeto foi desenvolvido como parte de um Checkpoint de Front-End, no qual foi criado uma tela de login e de cadastro, incluído com validação de formulário e passagem de dados apos efetuar o login, fazendo com que o email inserido apareça na parte superior da tela onde chamamos de Cabeçalho. 
 
