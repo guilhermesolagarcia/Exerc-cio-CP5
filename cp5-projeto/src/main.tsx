@@ -7,6 +7,7 @@ import { Login } from '../routes/Login/index.tsx'
 import { Cadastro } from '../routes/Cadastro/index.tsx';
 
 import { Home } from '../routes/Home/index.tsx'
+import { AuthProvider } from './Contexts/AuthProvider.tsx';
 
 import './globals.css'
 
@@ -25,6 +26,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
