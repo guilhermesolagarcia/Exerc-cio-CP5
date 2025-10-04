@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../../Contexts/AuthProvider"; 
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Contexts/AuthProvider";
 
-export function Cabecalho() {
+export function Cabecalho() { 
   const { usuario, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
 
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center">
@@ -13,7 +19,7 @@ export function Cabecalho() {
         {usuario ? (
           <div className="flex items-center gap-4">
             <span>Olá, <strong>{usuario.nome}</strong>! ({usuario.email})</span>
-            <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+            <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
               Sair
             </button>
           </div>

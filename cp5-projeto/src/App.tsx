@@ -1,12 +1,13 @@
 import { Outlet } from 'react-router-dom';
+import { Cabecalho } from './Components/Cabecalho/Cabecalho'; 
 
 function App() {
   return (
-    <div>       
+    <div>
+      <Cabecalho /> 
       <main>
-        <Outlet /> 
+        <Outlet />
       </main>
-
     </div>
   )
 }

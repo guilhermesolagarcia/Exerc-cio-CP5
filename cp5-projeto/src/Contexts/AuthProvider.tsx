@@ -1,8 +1,6 @@
 import { createContext, useState, useEffect, useContext} from "react";
 import type { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
 import type { Usuario } from "../../types/usuario";
-
 
 interface AuthContextData {
   usuario: Usuario | null;
@@ -13,7 +11,6 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const usuarioLogado = localStorage.getItem("usuarioLogado");
@@ -25,7 +22,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function logout() {
     setUsuario(null);
     localStorage.removeItem("usuarioLogado");
-    navigate("/login");
   }
 
   return (
@@ -34,7 +30,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
 
 export function useAuth() {
   const context = useContext(AuthContext);
